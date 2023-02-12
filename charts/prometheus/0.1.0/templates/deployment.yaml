@@ -4,7 +4,8 @@ metadata:
   name: prometheus
 spec:
   replicas: {{ .Values.replicaCount }}
-  strategy: Recreate
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app.kubernetes.io/name: prometheus
