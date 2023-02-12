@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: prometheus
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: prometheus
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      volumes:
+        - name: data
+          hostPath:
+            path: /mnt/ssd/applications/prometheus
+        - name: config
+          configMap:
+            defaultMode: 420
+            name: prometheus
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+      containers:
+        - name: prometheus
+          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          args:
+            - "--config.file=/etc/prometheus/prometheus.yml"
+            - "--storage.tsdb.path=/mnt/data/"
+          volumeMounts:
+            - mountPath: /mnt/data
+              name: data
+            - name: config
+              mountPath: /etc/prometheus/
+          ports:
+            - name: http
+              containerPort: 9090
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
