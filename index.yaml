@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  prometheus:
+  - apiVersion: v2
+    appVersion: v2.42.0
+    created: "2023-02-12T14:26:19.890942298Z"
+    description: A Helm chart for Kubernetes
+    digest: c22af67f2a8946abed2173b3d24b5bbd2282b543c82eaa8239bc5dab2198637e
+    name: prometheus
+    type: application
+    urls:
+    - https://github.com/strideynet/nas-charts/releases/download/prometheus-0.1.0/prometheus-0.1.0.tgz
+    version: 0.1.0
+generated: "2023-02-12T14:26:19.890950399Z"
