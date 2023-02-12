@@ -1,0 +1,10 @@
+groups:
+  - name: "Foo"
+    description: "Image to be used for container"
+questions:
+  - variable: foo
+    label: "Foo?"
+    description: "Foo?? Foo???"
+    group: "Foo"
+    schema:
+      type: string
